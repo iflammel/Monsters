@@ -49,6 +49,12 @@ ipch/
 *.vsp
 *.vspx
 
+#Img
+*.jpg
+*.png
+*.gif
+*.ico
+
 # Guidance Automation Toolkit
 *.gpState
 
