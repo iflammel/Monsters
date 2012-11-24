@@ -19,10 +19,15 @@ namespace Monsters
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+        Texture2D idle;
+        Texture2D run;
+        Nemo nemo;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            graphics.IsFullScreen = true;
         }
 
         /// <summary>
