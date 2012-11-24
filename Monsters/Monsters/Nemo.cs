@@ -13,9 +13,11 @@ namespace Monsters
         Rectangle rect;
         Texture2D run;
         Texture2D idle;
+        Texture2D creep;
 
         bool isRunning;
         bool isRunningRight;
+        bool isCreep;
 
         int frameWidth;
         int frameHeight;
@@ -24,7 +26,7 @@ namespace Monsters
         {
             get
             {
-                return run.Width / frameWidth;
+                return creep.Width / frameWidth;
             }
         }
 
@@ -32,13 +34,15 @@ namespace Monsters
         int timeElapsed;
         int timeForFrame = 100;
 
-        public Nemo(Rectangle rect, Texture2D idle, Texture2D run)
+        public Nemo(Rectangle rect, Texture2D idle, Texture2D run, Texture2D creep)
         {
             this.rect = rect;
             this.idle = idle;
+            this.creep = creep;
             this.run = run;
+            
 
-            frameWidth = frameHeight = run.Height;
+            frameWidth = frameHeight = creep.Height;
         }
 
         public void StartRun(bool isRight)
@@ -70,13 +74,8 @@ namespace Monsters
 
             if (keyboardState.IsKeyDown(Keys.Down))
             {
-                StopRun();
+                isCreep = true;
             }
-            if (keyboardState.IsKeyDown(Keys.Escape))
-            {
-                return;
-            }
-
         }
 
         public void Update(GameTime gameTime)
@@ -103,9 +102,19 @@ namespace Monsters
                 {
                     effects = SpriteEffects.FlipHorizontally;
                 }
-                spriteBatch.Draw(run, rect, r, Color.White, 0, Vector2.Zero, effects, 0);
+                if (isCreep)
+                {
+                    spriteBatch.Draw(run, rect, r, Color.White, 0, Vector2.Zero, effects, 0);
+                }
+                else
+                {
+                    spriteBatch.Draw(creep, rect, r, Color.White, 0, Vector2.Zero, effects, 0);
+                }            
+                
+                
             }
             else
+            if (!isRunning)
             {
                 spriteBatch.Draw(idle, rect, Color.White);
             }

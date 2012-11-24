@@ -22,14 +22,16 @@ namespace Monsters
 
         Texture2D idle;
         Texture2D run;
+        Texture2D creep;
         Nemo nemo;
-
-        KeyboardState oldState;
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            graphics.PreferredBackBufferWidth = 1680;
+            graphics.PreferredBackBufferHeight = 1024;
+
             graphics.IsFullScreen = true;
         }
 
@@ -54,12 +56,15 @@ namespace Monsters
         {
             
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
-            idle = Content.Load<Texture2D>("nemo_idle");
+            creep = Content.Load<Texture2D>("nemo_creep");
             run = Content.Load<Texture2D>("nemo_run");
+            idle = Content.Load<Texture2D>("nemo_idle");        
+            
+            
+            
 
-            Rectangle rect = new Rectangle(300, 300, 60, 60);
-            nemo = new Nemo(rect, idle, run);
+            Rectangle rect = new Rectangle(300, 600, 60, 60);
+            nemo = new Nemo(rect, idle, run, creep);
             
         }
 
