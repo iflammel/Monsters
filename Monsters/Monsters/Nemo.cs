@@ -58,6 +58,7 @@ namespace Monsters
             if (isRunning)
             {
                 Rectangle r = new Rectangle(currentFrame * frameWidth, 0, frameWidth, frameHeight);
+                spriteBatch.Draw(run, rect, r, Color.White);
             }
             else
             {

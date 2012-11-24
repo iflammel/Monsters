@@ -27,7 +27,7 @@ namespace Monsters
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            graphics.IsFullScreen = true;
+            graphics.IsFullScreen = false;
         }
 
         /// <summary>
@@ -52,6 +52,11 @@ namespace Monsters
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            idle = Content.Load<Texture2D>("nemo_idle");
+            run = Content.Load<Texture2D>("nemo_run");
+
+            Rectangle rect = new Rectangle(300, 300, 60, 60);
+            nemo = new Nemo(rect, idle, run);
             // TODO: use this.Content to load your game content here
         }
 
@@ -71,11 +76,7 @@ namespace Monsters
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            // Allows the game to exit
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
-                this.Exit();
-
-            // TODO: Add your update logic here
+            nemo.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -88,7 +89,7 @@ namespace Monsters
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // TODO: Add your drawing code here
+            nemo.Draw(spriteBatch);
 
             base.Draw(gameTime);
         }
