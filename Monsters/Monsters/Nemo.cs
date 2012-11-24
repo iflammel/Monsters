@@ -13,7 +13,8 @@ namespace Monsters
         Texture2D run;
         Texture2D idle;
 
-        bool isRunning = true;
+        bool isRunning;
+        bool isRunningRight;
 
         int frameWidth;
         int frameHeight;
@@ -39,6 +40,19 @@ namespace Monsters
             frameWidth = frameHeight = run.Height;
         }
 
+        public void StartRun(bool isRight)
+        {
+            isRunning = true;
+            isRunningRight = isRight;
+        }
+
+        public void StopRun()
+        {
+            isRunning = false;
+            currentFrame = 0;
+            timeElapsed = 0;
+
+        }
         public void Update(GameTime gameTime)
         {
             if (isRunning)
@@ -58,7 +72,12 @@ namespace Monsters
             if (isRunning)
             {
                 Rectangle r = new Rectangle(currentFrame * frameWidth, 0, frameWidth, frameHeight);
-                spriteBatch.Draw(run, rect, r, Color.White);
+                SpriteEffects effects = SpriteEffects.None;
+                if (!isRunningRight)
+                {
+                    effects = SpriteEffects.FlipHorizontally;
+                }
+                spriteBatch.Draw(run, rect, r, Color.White, 0, Vector2.Zero, effects, 0);
             }
             else
             {

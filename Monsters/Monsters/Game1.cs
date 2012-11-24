@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 
+
 namespace Monsters
 {
     /// <summary>
@@ -22,6 +23,8 @@ namespace Monsters
         Texture2D idle;
         Texture2D run;
         Nemo nemo;
+
+        KeyboardState oldState;
 
         public Game1()
         {
@@ -38,7 +41,7 @@ namespace Monsters
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
+            
 
             base.Initialize();
         }
@@ -49,7 +52,7 @@ namespace Monsters
         /// </summary>
         protected override void LoadContent()
         {
-            // Create a new SpriteBatch, which can be used to draw textures.
+            
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             idle = Content.Load<Texture2D>("nemo_idle");
@@ -57,7 +60,7 @@ namespace Monsters
 
             Rectangle rect = new Rectangle(300, 300, 60, 60);
             nemo = new Nemo(rect, idle, run);
-            // TODO: use this.Content to load your game content here
+            
         }
 
         /// <summary>
@@ -66,7 +69,7 @@ namespace Monsters
         /// </summary>
         protected override void UnloadContent()
         {
-            // TODO: Unload any non ContentManager content here
+            
         }
 
         /// <summary>
@@ -77,6 +80,26 @@ namespace Monsters
         protected override void Update(GameTime gameTime)
         {
             nemo.Update(gameTime);
+
+            
+
+            KeyboardState keyboardState = Keyboard.GetState();
+
+            if (keyboardState.IsKeyDown(Keys.Left))
+            {
+                nemo.StartRun(false);
+                
+            }
+
+            if (keyboardState.IsKeyDown(Keys.Right))
+            {
+                nemo.StartRun(true);
+            }
+
+            if (keyboardState.IsKeyDown(Keys.Down))
+            {
+                nemo.StopRun();
+            }
 
             base.Update(gameTime);
         }
