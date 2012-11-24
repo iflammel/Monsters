@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace Monsters
 {
@@ -53,6 +54,31 @@ namespace Monsters
             timeElapsed = 0;
 
         }
+
+        public void KeyControl(KeyboardState keyboardState)
+        {
+            if (keyboardState.IsKeyDown(Keys.Left))
+            {
+                StartRun(false);
+
+            }
+
+            if (keyboardState.IsKeyDown(Keys.Right))
+            {
+                StartRun(true);
+            }
+
+            if (keyboardState.IsKeyDown(Keys.Down))
+            {
+                StopRun();
+            }
+            if (keyboardState.IsKeyDown(Keys.Escape))
+            {
+                return;
+            }
+
+        }
+
         public void Update(GameTime gameTime)
         {
             if (isRunning)

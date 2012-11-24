@@ -30,7 +30,7 @@ namespace Monsters
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            graphics.IsFullScreen = false;
+            graphics.IsFullScreen = true;
         }
 
         /// <summary>
@@ -81,25 +81,7 @@ namespace Monsters
         {
             nemo.Update(gameTime);
 
-            
-
-            KeyboardState keyboardState = Keyboard.GetState();
-
-            if (keyboardState.IsKeyDown(Keys.Left))
-            {
-                nemo.StartRun(false);
-                
-            }
-
-            if (keyboardState.IsKeyDown(Keys.Right))
-            {
-                nemo.StartRun(true);
-            }
-
-            if (keyboardState.IsKeyDown(Keys.Down))
-            {
-                nemo.StopRun();
-            }
+            nemo.KeyControl(Keyboard.GetState());
 
             base.Update(gameTime);
         }
