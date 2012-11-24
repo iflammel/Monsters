@@ -104,11 +104,11 @@ namespace Monsters
                 }
                 if (isCreep)
                 {
-                    spriteBatch.Draw(run, rect, r, Color.White, 0, Vector2.Zero, effects, 0);
+                    spriteBatch.Draw(creep, rect, r, Color.White, 0, Vector2.Zero, effects, 0);
                 }
                 else
                 {
-                    spriteBatch.Draw(creep, rect, r, Color.White, 0, Vector2.Zero, effects, 0);
+                    spriteBatch.Draw(run, rect, r, Color.White, 0, Vector2.Zero, effects, 0);
                 }            
                 
                 
