@@ -10,19 +10,13 @@ namespace Monsters
 {
     class Level
     {
-        int currentLevel = 1;
         List<Block> blocks;
-        Texture2D block_cloud;
 
-
-        public Level(Texture2D block_cloud, string[] s)
+        public Level(Texture2D block_cloud, Texture2D block_grass, string[] s)
         {
-            currentLevel++;
-            if (currentLevel > 3)
-                currentLevel = 1;
+            
             blocks = new List<Block>();
             
-
             int x = 0;
             int y = 0;
             foreach (string str in s)
@@ -38,12 +32,13 @@ namespace Monsters
                     }
                     if (c == 'Y')
                     {
-
+                        Block block = new Block(rect, block_grass);
+                        blocks.Add(block);
                     }
                     x += 40;
                 }
                 x = 0;
-                y += 40;
+                y += 20;
             }
         }
 

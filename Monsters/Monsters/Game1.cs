@@ -27,6 +27,7 @@ namespace Monsters
         Texture2D creep_idle;
         Texture2D background;
         Texture2D cloud;
+        Texture2D grass;
         Nemo nemo;
         Level levels;
 
@@ -40,7 +41,7 @@ namespace Monsters
             windowWidth = graphics.PreferredBackBufferWidth = 1366;
             windowHeight = graphics.PreferredBackBufferHeight = 768;
 
-            graphics.IsFullScreen = false;
+            graphics.IsFullScreen = true;
         }
 
         public int WindowWidth
@@ -80,12 +81,13 @@ namespace Monsters
             creep_idle = Content.Load<Texture2D>("nemoSprites/nemo_creep_idle");
             background = Content.Load<Texture2D>("fon");
             cloud = Content.Load<Texture2D>("textures/cloud");
+            grass = Content.Load<Texture2D>("textures/grass");
 
             string[] s = File.ReadAllLines("content/levels/level1.txt");
 
             Rectangle rect = new Rectangle(300, 600, 60, 60);
             nemo = new Nemo(rect, idle, run, creep, creep_idle, this);
-            levels = new Level (cloud, s);
+            levels = new Level (cloud, grass, s);
             
         }
 
@@ -123,9 +125,9 @@ namespace Monsters
             spriteBatch.Begin();
             spriteBatch.Draw(background, new Vector2(0, 0), Color.White);
             spriteBatch.End();
-            levels.Draw(spriteBatch);
+            
             nemo.Draw(spriteBatch);
-
+            levels.Draw(spriteBatch);
             base.Draw(gameTime);
         }
     }
