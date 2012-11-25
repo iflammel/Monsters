@@ -22,6 +22,8 @@ namespace Monsters
         int frameWidth;
         int frameHeight;
 
+        KeyboardState oldKeyboardState;
+
         public int Frames
         {
             get
@@ -51,6 +53,11 @@ namespace Monsters
             isRunningRight = isRight;
         }
 
+        public void StartCreep()
+        {
+            isCreep = !isCreep;
+        }
+
         public void StopRun()
         {
             isRunning = false;
@@ -72,10 +79,16 @@ namespace Monsters
                 StartRun(true);
             }
 
-            if (keyboardState.IsKeyDown(Keys.Down))
+            if (keyboardState.IsKeyDown(Keys.Down) && oldKeyboardState.IsKeyDown(Keys.Down))
             {
                 isCreep = true;
             }
+            else
+            {
+                isCreep = false;
+            }
+
+            oldKeyboardState = keyboardState;
         }
 
         public void Update(GameTime gameTime)
