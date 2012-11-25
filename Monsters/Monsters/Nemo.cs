@@ -15,6 +15,7 @@ namespace Monsters
         Texture2D idle;
         Texture2D creep;
         Texture2D creep_idle;
+        Game1 game;
 
         bool isRunning = false;
         bool isRunningRight = false;
@@ -37,13 +38,14 @@ namespace Monsters
         int timeElapsed;
         int timeForFrame = 100;
 
-        public Nemo(Rectangle rect, Texture2D idle, Texture2D run, Texture2D creep, Texture2D creep_idle)
+        public Nemo(Rectangle rect, Texture2D idle, Texture2D run, Texture2D creep, Texture2D creep_idle, Game1 game)
         {
             this.rect = rect;
             this.idle = idle;
             this.creep = creep;
             this.run = run;
             this.creep_idle = creep_idle;
+            this.game = game;
 
             frameWidth = frameHeight = creep.Height;
         }
@@ -94,7 +96,7 @@ namespace Monsters
             oldKeyboardState = keyboardState;
         }
 
-        private Rectangle GetBoundingRect(Rectangle rectangle)
+        private Rectangle GetBoundingRect(Rectangle rectangle) //reduce the size of the frame, to control borders
         {
             int width = (int)(frameWidth * 0.4f);
             int x = rectangle.Left + (int)(frameWidth * 0.2f);
@@ -121,8 +123,13 @@ namespace Monsters
 
                 Rectangle nextPosition = rect;
                 nextPosition.Offset(dx, 0);
-                rect = nextPosition;
-               // Rectangle boudingRect = GetBoundingRect(nextPosition); 
+               
+                Rectangle boudingRect = GetBoundingRect(nextPosition);
+
+                if (boudingRect.Left > 0 && boudingRect.Right < game.WindowWidth) //border control
+                {
+                    rect = nextPosition;
+                }
 
                 
             }

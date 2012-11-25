@@ -26,16 +26,29 @@ namespace Monsters
         Texture2D creep_idle;
         Nemo nemo;
 
+        int windowWidth;
+        int windowHeight;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            graphics.PreferredBackBufferWidth = 1024;
-            graphics.PreferredBackBufferHeight = 768;
+            windowWidth = graphics.PreferredBackBufferWidth = 1024;
+            windowHeight = graphics.PreferredBackBufferHeight = 768;
 
             graphics.IsFullScreen = false;
         }
 
+        public int WindowWidth
+        {
+            get { return windowWidth; }
+        }
+
+        public int WindowHeight
+        {
+            get { return windowHeight; }
+        }
+        
         /// <summary>
         /// Allows the game to perform any initialization it needs to before starting to run.
         /// This is where it can query for any required services and load any non-graphic
@@ -57,15 +70,15 @@ namespace Monsters
         {
             
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            creep = Content.Load<Texture2D>("nemo_creep");
-            run = Content.Load<Texture2D>("nemo_run");
-            idle = Content.Load<Texture2D>("nemo_idle");
-            creep_idle = Content.Load<Texture2D>("nemo_creep_idle");
+            creep = Content.Load<Texture2D>("nemoSprites/nemo_creep");
+            run = Content.Load<Texture2D>("nemoSprites/nemo_run");
+            idle = Content.Load<Texture2D>("nemoSprites/nemo_idle");
+            creep_idle = Content.Load<Texture2D>("nemoSprites/nemo_creep_idle");
             
             
 
             Rectangle rect = new Rectangle(300, 600, 60, 60);
-            nemo = new Nemo(rect, idle, run, creep, creep_idle);
+            nemo = new Nemo(rect, idle, run, creep, creep_idle, this);
             
         }
 

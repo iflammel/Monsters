@@ -42,27 +42,23 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="nemo_idle.png">
-      <Name>nemo_idle</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="nemo_run.png">
-      <Name>nemo_run</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="nemo_creep.png">
+    <Compile Include="nemoSprites\nemo_creep.png">
       <Name>nemo_creep</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="nemo_creep_idle.png">
+    <Compile Include="nemoSprites\nemo_creep_idle.png">
       <Name>nemo_creep_idle</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="nemoSprites\nemo_idle.png">
+      <Name>nemo_idle</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="nemoSprites\nemo_run.png">
+      <Name>nemo_run</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
