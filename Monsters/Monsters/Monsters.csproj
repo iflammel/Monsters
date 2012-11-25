@@ -107,6 +107,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Block.cs" />
     <Compile Include="Level.cs" />
     <Compile Include="Nemo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

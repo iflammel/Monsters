@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using System.IO;
 
 
 namespace Monsters
@@ -25,7 +26,9 @@ namespace Monsters
         Texture2D creep;
         Texture2D creep_idle;
         Texture2D background;
+        Texture2D cloud;
         Nemo nemo;
+        Level levels;
 
         int windowWidth;
         int windowHeight;
@@ -76,10 +79,13 @@ namespace Monsters
             idle = Content.Load<Texture2D>("nemoSprites/nemo_idle");
             creep_idle = Content.Load<Texture2D>("nemoSprites/nemo_creep_idle");
             background = Content.Load<Texture2D>("fon");
-            
+            cloud = Content.Load<Texture2D>("textures/cloud");
+
+            string[] s = File.ReadAllLines("content/levels/level1.txt");
 
             Rectangle rect = new Rectangle(300, 600, 60, 60);
             nemo = new Nemo(rect, idle, run, creep, creep_idle, this);
+            levels = new Level (cloud, s);
             
         }
 
@@ -115,11 +121,9 @@ namespace Monsters
             GraphicsDevice.Clear(Color.Black);
 
             spriteBatch.Begin();
-
             spriteBatch.Draw(background, new Vector2(0, 0), Color.White);
-
             spriteBatch.End();
-
+            levels.Draw(spriteBatch);
             nemo.Draw(spriteBatch);
 
             base.Draw(gameTime);
