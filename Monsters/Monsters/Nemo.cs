@@ -23,6 +23,8 @@ namespace Monsters
 
         int frameWidth;
         int frameHeight;
+        BasicEffect ef;
+                    
 
         KeyboardState oldKeyboardState; 
 
@@ -144,7 +146,9 @@ namespace Monsters
             {
                 if (!isRunningRight)
                 {
-                    effects = SpriteEffects.FlipHorizontally;
+                    effects = SpriteEffects.FlipHorizontally;  //flip image to change the way
+
+
                 }
                 
                 if(isCreep)

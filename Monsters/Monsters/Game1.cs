@@ -24,6 +24,7 @@ namespace Monsters
         Texture2D run;
         Texture2D creep;
         Texture2D creep_idle;
+        Texture2D background;
         Nemo nemo;
 
         int windowWidth;
@@ -33,7 +34,7 @@ namespace Monsters
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            windowWidth = graphics.PreferredBackBufferWidth = 1024;
+            windowWidth = graphics.PreferredBackBufferWidth = 1366;
             windowHeight = graphics.PreferredBackBufferHeight = 768;
 
             graphics.IsFullScreen = false;
@@ -74,7 +75,7 @@ namespace Monsters
             run = Content.Load<Texture2D>("nemoSprites/nemo_run");
             idle = Content.Load<Texture2D>("nemoSprites/nemo_idle");
             creep_idle = Content.Load<Texture2D>("nemoSprites/nemo_creep_idle");
-            
+            background = Content.Load<Texture2D>("fon");
             
 
             Rectangle rect = new Rectangle(300, 600, 60, 60);
@@ -111,7 +112,13 @@ namespace Monsters
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
+
+            spriteBatch.Begin();
+
+            spriteBatch.Draw(background, new Vector2(0, 0), Color.White);
+
+            spriteBatch.End();
 
             nemo.Draw(spriteBatch);
 
