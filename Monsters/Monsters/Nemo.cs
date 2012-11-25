@@ -14,6 +14,7 @@ namespace Monsters
         Texture2D run;
         Texture2D idle;
         Texture2D creep;
+        Texture2D creep_idle;
 
         bool isRunning = false;
         bool isRunningRight = false;
@@ -36,13 +37,13 @@ namespace Monsters
         int timeElapsed;
         int timeForFrame = 100;
 
-        public Nemo(Rectangle rect, Texture2D idle, Texture2D run, Texture2D creep)
+        public Nemo(Rectangle rect, Texture2D idle, Texture2D run, Texture2D creep, Texture2D creep_idle)
         {
             this.rect = rect;
             this.idle = idle;
             this.creep = creep;
             this.run = run;
-            
+            this.creep_idle = creep_idle;
 
             frameWidth = frameHeight = creep.Height;
         }
@@ -73,16 +74,17 @@ namespace Monsters
                     StartRun(true);
                     isRunningRight = true;
                 }
-                else
-                {
-                    StopRun();
-                }
+                    else
+                    {
+                        StopRun();
+                    }
 
             
 
             if (keyboardState.IsKeyDown(Keys.Down) && oldKeyboardState.IsKeyDown(Keys.Down))
             {
                 isCreep = true;
+                
             }
             else
             {
@@ -137,22 +139,27 @@ namespace Monsters
                 {
                     effects = SpriteEffects.FlipHorizontally;
                 }
-                if (isCreep)
+                
+                if(isCreep)
                 {
                     spriteBatch.Draw(creep, rect, r, Color.White, 0, Vector2.Zero, effects, 0);
                 }
-                else
+                if (!isCreep)
                 {
                     spriteBatch.Draw(run, rect, r, Color.White, 0, Vector2.Zero, effects, 0);
-                }            
-                
+                }
+
                 
             }
             else
-            if (!isRunning)
-            {
-                spriteBatch.Draw(idle, rect, Color.White);
-            }
+                if (isCreep && !isRunning)
+                {
+                    spriteBatch.Draw(creep_idle, rect, r, Color.White, 0, Vector2.Zero, effects, 0);
+                }else
+                    if (!isRunning)
+                    {
+                         spriteBatch.Draw(idle, rect, Color.White);
+                    }
             spriteBatch.End();
         }
     }
