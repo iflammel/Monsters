@@ -15,14 +15,14 @@ namespace Monsters
         Texture2D idle;
         Texture2D creep;
 
-        bool isRunning;
-        bool isRunningRight;
-        bool isCreep;
+        bool isRunning = false;
+        bool isRunningRight = false;
+        bool isCreep = false;
 
         int frameWidth;
         int frameHeight;
 
-        KeyboardState oldKeyboardState;
+        KeyboardState oldKeyboardState; 
 
         public int Frames
         {
@@ -53,11 +53,6 @@ namespace Monsters
             isRunningRight = isRight;
         }
 
-        public void StartCreep()
-        {
-            isCreep = !isCreep;
-        }
-
         public void StopRun()
         {
             isRunning = false;
@@ -68,16 +63,22 @@ namespace Monsters
 
         public void KeyControl(KeyboardState keyboardState)
         {
-            if (keyboardState.IsKeyDown(Keys.Left))
-            {
-                StartRun(false);
-
-            }
-
-            if (keyboardState.IsKeyDown(Keys.Right))
+            if (keyboardState.IsKeyDown(Keys.Left) && oldKeyboardState.IsKeyDown(Keys.Left))
             {
                 StartRun(true);
-            }
+                isRunningRight = false;
+            }else
+                if (keyboardState.IsKeyDown(Keys.Right) && oldKeyboardState.IsKeyDown(Keys.Right))
+                {
+                    StartRun(true);
+                    isRunningRight = true;
+                }
+                else
+                {
+                    StopRun();
+                }
+
+            
 
             if (keyboardState.IsKeyDown(Keys.Down) && oldKeyboardState.IsKeyDown(Keys.Down))
             {
@@ -91,26 +92,47 @@ namespace Monsters
             oldKeyboardState = keyboardState;
         }
 
+        private Rectangle GetBoundingRect(Rectangle rectangle)
+        {
+            int width = (int)(frameWidth * 0.4f);
+            int x = rectangle.Left + (int)(frameWidth * 0.2f);
+
+            return new Rectangle(x, rectangle.Top, width, rectangle.Height);
+        }
+
         public void Update(GameTime gameTime)
         {
+            timeElapsed += gameTime.ElapsedGameTime.Milliseconds;
+            int tempTime = timeForFrame;
+            if (timeElapsed > timeForFrame)
+            {
+                currentFrame = (currentFrame + 1) % Frames;
+                timeElapsed = 0;
+            }
             if (isRunning)
             {
-                timeElapsed += gameTime.ElapsedGameTime.Milliseconds;
-                if (timeElapsed > timeForFrame)
+                int dx = 1 * gameTime.ElapsedGameTime.Milliseconds / 10;
+                if (!isRunningRight)
                 {
-                    currentFrame = (currentFrame + 1) % Frames;
-                    timeElapsed = 0;
+                    dx = -dx;
                 }
+
+                Rectangle nextPosition = rect;
+                nextPosition.Offset(dx, 0);
+                rect = nextPosition;
+               // Rectangle boudingRect = GetBoundingRect(nextPosition); 
+
+                
             }
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Begin();
+            Rectangle r = new Rectangle(currentFrame * frameWidth, 0, frameWidth, frameHeight);
+            SpriteEffects effects = SpriteEffects.None;
             if (isRunning)
             {
-                Rectangle r = new Rectangle(currentFrame * frameWidth, 0, frameWidth, frameHeight);
-                SpriteEffects effects = SpriteEffects.None;
                 if (!isRunningRight)
                 {
                     effects = SpriteEffects.FlipHorizontally;
