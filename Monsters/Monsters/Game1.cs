@@ -28,6 +28,7 @@ namespace Monsters
         Texture2D background;
         Texture2D cloud;
         Texture2D grass;
+        Texture2D green_block;
         Nemo nemo;
         Level levels;
 
@@ -82,12 +83,13 @@ namespace Monsters
             background = Content.Load<Texture2D>("fon");
             cloud = Content.Load<Texture2D>("textures/cloud");
             grass = Content.Load<Texture2D>("textures/grass");
+            green_block = Content.Load<Texture2D>("textures/green_block");
 
             string[] s = File.ReadAllLines("content/levels/level1.txt");
 
-            Rectangle rect = new Rectangle(300, 600, 60, 60);
+            Rectangle rect = new Rectangle(0, 700, 60, 60);
             nemo = new Nemo(rect, idle, run, creep, creep_idle, this);
-            levels = new Level (cloud, grass, s);
+            levels = new Level (cloud, grass, green_block, s);
             
         }
 

@@ -23,7 +23,6 @@ namespace Monsters
 
         int frameWidth;
         int frameHeight;
-        BasicEffect ef;
                     
 
         KeyboardState oldKeyboardState; 

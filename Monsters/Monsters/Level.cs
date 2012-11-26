@@ -12,7 +12,7 @@ namespace Monsters
     {
         List<Block> blocks;
 
-        public Level(Texture2D block_cloud, Texture2D block_grass, string[] s)
+        public Level(Texture2D block_cloud, Texture2D block_grass, Texture2D green_block, string[] s)
         {
             
             blocks = new List<Block>();
@@ -33,6 +33,11 @@ namespace Monsters
                     if (c == 'Y')
                     {
                         Block block = new Block(rect, block_grass);
+                        blocks.Add(block);
+                    }
+                    if (c == 'G')
+                    {
+                        Block block = new Block(rect, green_block);
                         blocks.Add(block);
                     }
                     x += 40;
