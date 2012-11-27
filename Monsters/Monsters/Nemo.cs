@@ -21,6 +21,10 @@ namespace Monsters
         bool isRunningRight = false;
         bool isCreep = false;
 
+        float yVelocity;
+        float maxYVelocity = 10;
+        float g = 0.2f;
+
         int frameWidth;
         int frameHeight;
                     
@@ -52,19 +56,37 @@ namespace Monsters
         }
 
         public void StartRun(bool isRight)
-        {
-            if (!isRunning)
-            {
-                isRunning = true;
-                currentFrame = 0;
-                timeElapsed = 0;
-            }
+        {         
+            isRunning = true;
             isRunningRight = isRight;
         }
 
         public void StopRun()
         {
+            currentFrame = 0;
+            timeElapsed = 0;
             isRunning = false;
+        }
+
+        public void ApplyGravity(GameTime gameTime)
+        {
+            yVelocity = yVelocity - g * gameTime.ElapsedGameTime.Milliseconds / 10;
+            float dy = yVelocity * gameTime.ElapsedGameTime.Milliseconds / 10;
+
+            Rectangle nextPosition = rect;
+            nextPosition.Offset(0, -(int)dy);
+
+            Rectangle boudingRect = GetBoundingRect(nextPosition);
+
+            if (boudingRect.Top > 0 && boudingRect.Bottom < game.WindowHeight)
+            {
+                rect = nextPosition;
+            }
+
+            if (boudingRect.Bottom > game.WindowHeight)
+            {
+                yVelocity = 0;
+            }
         }
 
         public void KeyControl(KeyboardState keyboardState)
@@ -136,6 +158,7 @@ namespace Monsters
 
                 
             }
+            ApplyGravity(gameTime);
         }
 
         public void Draw(SpriteBatch spriteBatch)

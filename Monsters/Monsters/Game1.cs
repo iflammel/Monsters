@@ -91,7 +91,7 @@ namespace Monsters
 
             string[] s = File.ReadAllLines("content/levels/level1.txt");
 
-            Rectangle rect = new Rectangle(0, 700, 60, 60);
+            Rectangle rect = new Rectangle(100, 200, 60, 60);
             nemo = new Nemo(rect, idle, run, creep, creep_idle, this);
             levels = new Level (cloud, grass, green_block, s);
             
