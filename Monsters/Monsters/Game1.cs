@@ -25,6 +25,7 @@ namespace Monsters
         Texture2D run;
         Texture2D creep;
         Texture2D creep_idle;
+
         Texture2D background;
         Texture2D cloud;
         Texture2D grass;
@@ -76,11 +77,14 @@ namespace Monsters
         {
             
             spriteBatch = new SpriteBatch(GraphicsDevice);
+
             creep = Content.Load<Texture2D>("nemoSprites/nemo_creep");
             run = Content.Load<Texture2D>("nemoSprites/nemo_run");
             idle = Content.Load<Texture2D>("nemoSprites/nemo_idle");
             creep_idle = Content.Load<Texture2D>("nemoSprites/nemo_creep_idle");
+
             background = Content.Load<Texture2D>("fon");
+
             cloud = Content.Load<Texture2D>("textures/cloud");
             grass = Content.Load<Texture2D>("textures/grass");
             green_block = Content.Load<Texture2D>("textures/green_block");

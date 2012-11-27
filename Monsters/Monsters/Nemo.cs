@@ -53,16 +53,18 @@ namespace Monsters
 
         public void StartRun(bool isRight)
         {
-            isRunning = true;
+            if (!isRunning)
+            {
+                isRunning = true;
+                currentFrame = 0;
+                timeElapsed = 0;
+            }
             isRunningRight = isRight;
         }
 
         public void StopRun()
         {
             isRunning = false;
-            currentFrame = 0;
-            timeElapsed = 0;
-
         }
 
         public void KeyControl(KeyboardState keyboardState)
