@@ -47,6 +47,12 @@ namespace Monsters
             }
         }
 
+
+        public List<Block> Blocks
+        {
+            get { return blocks; }
+        }
+
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Begin();

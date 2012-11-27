@@ -78,12 +78,13 @@ namespace Monsters
 
             Rectangle boudingRect = GetBoundingRect(nextPosition);
 
-            if (boudingRect.Top > 0 && boudingRect.Bottom < game.WindowHeight)
+            if (boudingRect.Top > 0 && boudingRect.Bottom < game.WindowHeight && !game.CollidesWithLevel(boudingRect))
             {
                 rect = nextPosition;
             }
 
-            if (boudingRect.Bottom > game.WindowHeight)
+            bool collideOnFallDown = (game.CollidesWithLevel(boudingRect) && yVelocity < 0);
+            if (boudingRect.Bottom > game.WindowHeight || collideOnFallDown)
             {
                 yVelocity = 0;
             }

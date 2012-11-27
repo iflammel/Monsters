@@ -31,7 +31,8 @@ namespace Monsters
         Texture2D grass;
         Texture2D green_block;
         Nemo nemo;
-        Level levels;
+        Level levels_l1;
+        Level levels_l2;
 
         int windowWidth;
         int windowHeight;
@@ -46,10 +47,24 @@ namespace Monsters
             graphics.IsFullScreen = true;
         }
 
+        public bool CollidesWithLevel(Rectangle rect)
+        {
+            foreach (Block block in levels_l2.Blocks)
+            {
+                if (block.rect.Intersects(rect))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         public int WindowWidth
         {
             get { return windowWidth; }
         }
+
+
 
         public int WindowHeight
         {
@@ -89,11 +104,13 @@ namespace Monsters
             grass = Content.Load<Texture2D>("textures/grass");
             green_block = Content.Load<Texture2D>("textures/green_block");
 
-            string[] s = File.ReadAllLines("content/levels/level1.txt");
+            string[] s_l1 = File.ReadAllLines("content/levels/level1_l1.txt");
+            string[] s_l2 = File.ReadAllLines("content/levels/level1_l2.txt");
 
             Rectangle rect = new Rectangle(100, 200, 60, 60);
             nemo = new Nemo(rect, idle, run, creep, creep_idle, this);
-            levels = new Level (cloud, grass, green_block, s);
+            levels_l1 = new Level (cloud, grass, green_block, s_l1);
+            levels_l2 = new Level(cloud, grass, green_block, s_l2);
             
         }
 
@@ -131,9 +148,12 @@ namespace Monsters
             spriteBatch.Begin();
             spriteBatch.Draw(background, new Vector2(0, 0), Color.White);
             spriteBatch.End();
-            
+
+
             nemo.Draw(spriteBatch);
-            levels.Draw(spriteBatch);
+            levels_l1.Draw(spriteBatch);
+            levels_l2.Draw(spriteBatch);
+
             base.Draw(gameTime);
         }
     }
