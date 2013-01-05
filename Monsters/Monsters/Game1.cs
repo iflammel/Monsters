@@ -24,6 +24,7 @@ namespace Monsters
         Texture2D idle;
         Texture2D run;
         Texture2D jumpInPlace;
+        Texture2D shord;
 
         Texture2D background;
         Texture2D cloud;
@@ -95,6 +96,7 @@ namespace Monsters
             run = Content.Load<Texture2D>("nemoSprites/nemo_run");
             idle = Content.Load<Texture2D>("nemoSprites/nemo_idle");
             jumpInPlace = Content.Load<Texture2D>("nemoSprites/nemo_jump_in_place");
+            shord = Content.Load<Texture2D>("nemoSprites/nemo_shord");
 
             background = Content.Load<Texture2D>("fon");
 
@@ -106,7 +108,7 @@ namespace Monsters
             string[] s_l2 = File.ReadAllLines("content/levels/level1_l2.txt");
 
             Rectangle rect = new Rectangle(100, 200, 60, 60);
-            nemo = new Nemo(rect, idle, run, jumpInPlace, this);
+            nemo = new Nemo(rect, idle, run, jumpInPlace, shord, this);
             levels_l1 = new Level (cloud, grass, green_block, s_l1);
             levels_l2 = new Level(cloud, grass, green_block, s_l2);
             

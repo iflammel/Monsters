@@ -14,12 +14,14 @@ namespace Monsters
         Texture2D run;
         Texture2D idle;
         Texture2D jumpInPlace;
+        Texture2D shord;
 
         Game1 game;
 
         bool isRunning = false;
         bool isRunningRight = false;
         bool isJumping = false;
+        bool fightWithShord = false;
 
         float yVelocity;
         float maxYVelocity = 8;
@@ -43,12 +45,13 @@ namespace Monsters
         int timeElapsed;
         int timeForFrame = 100;
 
-        public Nemo(Rectangle rect, Texture2D idle, Texture2D run, Texture2D jumpInPlace, Game1 game)
+        public Nemo(Rectangle rect, Texture2D idle, Texture2D run, Texture2D jumpInPlace, Texture2D shord, Game1 game)
         {
             this.rect = rect;
             this.idle = idle;
             this.run = run;
             this.jumpInPlace = jumpInPlace;
+            this.shord = shord;
             this.game = game;
             
 
@@ -108,6 +111,12 @@ namespace Monsters
             if (keyboardState.IsKeyDown(Keys.Up))
             {
                 Jump();
+            }
+
+            if (keyboardState.IsKeyDown(Keys.S) && oldKeyboardState.IsKeyDown(Keys.S))
+            {
+                fightWithShord = true;
+                isRunning = false;
             }
 
 
@@ -178,23 +187,34 @@ namespace Monsters
             spriteBatch.Begin();
             Rectangle r = new Rectangle(currentFrame * frameWidth, 0, frameWidth, frameHeight);
             SpriteEffects effects = SpriteEffects.None;
-            if (isJumping)
+            if (fightWithShord)
             {
-                spriteBatch.Draw(jumpInPlace, rect, r, Color.White, 0, Vector2.Zero, effects, 0);
+                Rectangle rs = new Rectangle(currentFrame * frameWidth, 0, frameWidth, frameHeight);
+                frameHeight = jumpInPlace.Height;
+                spriteBatch.Draw(jumpInPlace, rect, rs, Color.White, 0, Vector2.Zero, effects, 0);
+                fightWithShord = false;
             }
             else
             {
-                if (isRunning)
+                if (isJumping)
                 {
-                    if (!isRunningRight)
-                    {
-                        effects = SpriteEffects.FlipHorizontally;  //flip image to change the way
-                    }
-                    spriteBatch.Draw(run, rect, r, Color.White, 0, Vector2.Zero, effects, 0);
+                    spriteBatch.Draw(jumpInPlace, rect, r, Color.White, 0, Vector2.Zero, effects, 0);
                 }
                 else
                 {
-                    spriteBatch.Draw(idle, rect, Color.White);
+                    if (isRunning)
+                    {
+                        frameHeight = run.Height;
+                        if (!isRunningRight)
+                        {
+                            effects = SpriteEffects.FlipHorizontally;  //flip image to change the way
+                        }
+                        spriteBatch.Draw(run, rect, r, Color.White, 0, Vector2.Zero, effects, 0);
+                    }
+                    else
+                    {
+                        spriteBatch.Draw(idle, rect, Color.White);
+                    }
                 }
             }
             spriteBatch.End();
