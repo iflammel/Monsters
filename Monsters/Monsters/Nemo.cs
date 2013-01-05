@@ -13,16 +13,16 @@ namespace Monsters
         Rectangle rect;
         Texture2D run;
         Texture2D idle;
-        Texture2D creep;
-        Texture2D creep_idle;
+        Texture2D jumpInPlace;
+
         Game1 game;
 
         bool isRunning = false;
         bool isRunningRight = false;
-        bool isCreep = false;
+        bool isJumping = false;
 
         float yVelocity;
-        float maxYVelocity = 10;
+        float maxYVelocity = 8;
         float g = 0.2f;
 
         int frameWidth;
@@ -35,7 +35,7 @@ namespace Monsters
         {
             get
             {
-                return creep.Width / frameWidth;
+                return run.Width / frameWidth;
             }
         }
 
@@ -43,16 +43,17 @@ namespace Monsters
         int timeElapsed;
         int timeForFrame = 100;
 
-        public Nemo(Rectangle rect, Texture2D idle, Texture2D run, Texture2D creep, Texture2D creep_idle, Game1 game)
+        public Nemo(Rectangle rect, Texture2D idle, Texture2D run, Texture2D jumpInPlace, Game1 game)
         {
             this.rect = rect;
             this.idle = idle;
-            this.creep = creep;
             this.run = run;
-            this.creep_idle = creep_idle;
+            this.jumpInPlace = jumpInPlace;
             this.game = game;
+            
 
-            frameWidth = frameHeight = creep.Height;
+            frameHeight = frameWidth = run.Height;
+
         }
 
         public void StartRun(bool isRight)
@@ -66,6 +67,17 @@ namespace Monsters
             currentFrame = 0;
             timeElapsed = 0;
             isRunning = false;
+        }
+
+        public void Jump()
+        {
+            if (!isJumping && yVelocity == 0.0f)
+            {
+                isJumping = true;
+                currentFrame = 0;
+                timeElapsed = 0;
+                yVelocity = maxYVelocity;
+            }
         }
 
         public void ApplyGravity(GameTime gameTime)
@@ -87,37 +99,36 @@ namespace Monsters
             if (boudingRect.Bottom > game.WindowHeight || collideOnFallDown)
             {
                 yVelocity = 0;
+                isJumping = false;
             }
         }
 
         public void KeyControl(KeyboardState keyboardState)
         {
+            if (keyboardState.IsKeyDown(Keys.Up))
+            {
+                Jump();
+            }
+
+
             if (keyboardState.IsKeyDown(Keys.Left) && oldKeyboardState.IsKeyDown(Keys.Left))
             {
                 StartRun(true);
                 isRunningRight = false;
-            }else
+            }
+            else
+            {
                 if (keyboardState.IsKeyDown(Keys.Right) && oldKeyboardState.IsKeyDown(Keys.Right))
                 {
                     StartRun(true);
                     isRunningRight = true;
                 }
-                    else
-                    {
-                        StopRun();
-                    }
-
-            
-
-            if (keyboardState.IsKeyDown(Keys.Down) && oldKeyboardState.IsKeyDown(Keys.Down))
-            {
-                isCreep = true;
-                
+                else
+                {
+                    StopRun();
+                }
             }
-            else
-            {
-                isCreep = false;
-            }
+
 
             oldKeyboardState = keyboardState;
         }
@@ -141,7 +152,7 @@ namespace Monsters
             }
             if (isRunning)
             {
-                int dx = 1 * gameTime.ElapsedGameTime.Milliseconds / 10;
+                int dx = 1 * gameTime.ElapsedGameTime.Milliseconds / 7;
                 if (!isRunningRight)
                 {
                     dx = -dx;
@@ -167,35 +178,25 @@ namespace Monsters
             spriteBatch.Begin();
             Rectangle r = new Rectangle(currentFrame * frameWidth, 0, frameWidth, frameHeight);
             SpriteEffects effects = SpriteEffects.None;
-            if (isRunning)
+            if (isJumping)
             {
-                if (!isRunningRight)
-                {
-                    effects = SpriteEffects.FlipHorizontally;  //flip image to change the way
-
-
-                }
-                
-                if(isCreep)
-                {
-                    spriteBatch.Draw(creep, rect, r, Color.White, 0, Vector2.Zero, effects, 0);
-                }
-                if (!isCreep)
-                {
-                    spriteBatch.Draw(run, rect, r, Color.White, 0, Vector2.Zero, effects, 0);
-                }
-
-                
+                spriteBatch.Draw(jumpInPlace, rect, r, Color.White, 0, Vector2.Zero, effects, 0);
             }
             else
-                if (isCreep && !isRunning)
+            {
+                if (isRunning)
                 {
-                    spriteBatch.Draw(creep_idle, rect, r, Color.White, 0, Vector2.Zero, effects, 0);
-                }else
-                    if (!isRunning)
+                    if (!isRunningRight)
                     {
-                         spriteBatch.Draw(idle, rect, Color.White);
+                        effects = SpriteEffects.FlipHorizontally;  //flip image to change the way
                     }
+                    spriteBatch.Draw(run, rect, r, Color.White, 0, Vector2.Zero, effects, 0);
+                }
+                else
+                {
+                    spriteBatch.Draw(idle, rect, Color.White);
+                }
+            }
             spriteBatch.End();
         }
     }

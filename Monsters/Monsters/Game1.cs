@@ -23,8 +23,7 @@ namespace Monsters
 
         Texture2D idle;
         Texture2D run;
-        Texture2D creep;
-        Texture2D creep_idle;
+        Texture2D jumpInPlace;
 
         Texture2D background;
         Texture2D cloud;
@@ -44,7 +43,7 @@ namespace Monsters
             windowWidth = graphics.PreferredBackBufferWidth = 1366;
             windowHeight = graphics.PreferredBackBufferHeight = 768;
 
-            graphics.IsFullScreen = true;
+            graphics.IsFullScreen = false;
         }
 
         public bool CollidesWithLevel(Rectangle rect)
@@ -93,10 +92,9 @@ namespace Monsters
             
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            creep = Content.Load<Texture2D>("nemoSprites/nemo_creep");
             run = Content.Load<Texture2D>("nemoSprites/nemo_run");
             idle = Content.Load<Texture2D>("nemoSprites/nemo_idle");
-            creep_idle = Content.Load<Texture2D>("nemoSprites/nemo_creep_idle");
+            jumpInPlace = Content.Load<Texture2D>("nemoSprites/nemo_jump_in_place");
 
             background = Content.Load<Texture2D>("fon");
 
@@ -108,7 +106,7 @@ namespace Monsters
             string[] s_l2 = File.ReadAllLines("content/levels/level1_l2.txt");
 
             Rectangle rect = new Rectangle(100, 200, 60, 60);
-            nemo = new Nemo(rect, idle, run, creep, creep_idle, this);
+            nemo = new Nemo(rect, idle, run, jumpInPlace, this);
             levels_l1 = new Level (cloud, grass, green_block, s_l1);
             levels_l2 = new Level(cloud, grass, green_block, s_l2);
             
