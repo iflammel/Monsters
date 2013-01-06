@@ -33,12 +33,9 @@ namespace Monsters
 
         KeyboardState oldKeyboardState; 
 
-        public int Frames
-        {
-            get
-            {
-                return run.Width / frameWidth;
-            }
+        public int Frames(int _width)
+        {           
+                return _width / frameWidth;
         }
 
         int currentFrame;
@@ -156,7 +153,7 @@ namespace Monsters
             int tempTime = timeForFrame;
             if (timeElapsed > timeForFrame)
             {
-                currentFrame = (currentFrame + 1) % Frames;
+                currentFrame = (currentFrame + 1) % Frames(run.Width);
                 timeElapsed = 0;
             }
             if (isRunning)
@@ -187,33 +184,37 @@ namespace Monsters
             spriteBatch.Begin();
             Rectangle r = new Rectangle(currentFrame * frameWidth, 0, frameWidth, frameHeight);
             SpriteEffects effects = SpriteEffects.None;
-            if (fightWithShord)
+            if (!isRunningRight)
             {
-                Rectangle rs = new Rectangle(currentFrame * frameWidth, 0, frameWidth, frameHeight);
-                frameHeight = jumpInPlace.Height;
-                spriteBatch.Draw(jumpInPlace, rect, rs, Color.White, 0, Vector2.Zero, effects, 0);
-                fightWithShord = false;
+                effects = SpriteEffects.FlipHorizontally;  //flip image to change the way
+            }
+            if (isJumping)
+            {
+                spriteBatch.Draw(jumpInPlace, rect, r, Color.White, 0, Vector2.Zero, effects, 0);
             }
             else
             {
-                if (isJumping)
+                if (fightWithShord)
                 {
-                    spriteBatch.Draw(jumpInPlace, rect, r, Color.White, 0, Vector2.Zero, effects, 0);
+                    frameHeight = shord.Height;
+                    Rectangle rs = new Rectangle(currentFrame * frameWidth, 0, frameWidth, frameHeight);                   
+                    spriteBatch.Draw(shord, rect, rs, Color.White, 0, Vector2.Zero, effects, 0);
+                    
+                    fightWithShord = false;
                 }
                 else
                 {
-                    if (isRunning)
+
                     {
-                        frameHeight = run.Height;
-                        if (!isRunningRight)
+                        if (isRunning)
                         {
-                            effects = SpriteEffects.FlipHorizontally;  //flip image to change the way
+                            frameHeight = run.Height;                         
+                            spriteBatch.Draw(run, rect, r, Color.White, 0, Vector2.Zero, effects, 0);
                         }
-                        spriteBatch.Draw(run, rect, r, Color.White, 0, Vector2.Zero, effects, 0);
-                    }
-                    else
-                    {
-                        spriteBatch.Draw(idle, rect, Color.White);
+                        else
+                        {
+                            spriteBatch.Draw(idle, rect, Color.White);
+                        }
                     }
                 }
             }
