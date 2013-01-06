@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Monsters
 {
-    class Block
+    public class Block
     {
         public Rectangle rect;
         Texture2D texture;
@@ -20,7 +20,8 @@ namespace Monsters
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(texture, rect, Color.White);
+            Rectangle screenRect = Level.GetScreenRect(rect);
+            spriteBatch.Draw(texture, screenRect, Color.White);
         }
     }
 }

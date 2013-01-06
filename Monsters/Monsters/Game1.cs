@@ -30,7 +30,7 @@ namespace Monsters
         Texture2D cloud;
         Texture2D grass;
         Texture2D green_block;
-        Nemo nemo;
+        static Nemo nemo;
         Level levels_l1;
         Level levels_l2;
 
@@ -70,7 +70,9 @@ namespace Monsters
         {
             get { return windowHeight; }
         }
-        
+
+       
+
         /// <summary>
         /// Allows the game to perform any initialization it needs to before starting to run.
         /// This is where it can query for any required services and load any non-graphic
@@ -128,8 +130,17 @@ namespace Monsters
         /// checking for collisions, gathering input, and playing audio.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
+        /// 
+        public Rectangle heroScreenRect;
+
         protected override void Update(GameTime gameTime)
         {
+            Rectangle heroScreenRect = Level.GetScreenRect(nemo.rect);
+            if (heroScreenRect.Left < WindowWidth / 2)
+                Level.Scroll(-3 * gameTime.ElapsedGameTime.Milliseconds / 7);
+            if (heroScreenRect.Left > WindowWidth / 2 + 10)
+                Level.Scroll(3 * gameTime.ElapsedGameTime.Milliseconds / 7);
+
             nemo.Update(gameTime);
 
             nemo.KeyControl(Keyboard.GetState());

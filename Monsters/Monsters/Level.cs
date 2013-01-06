@@ -8,9 +8,12 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Monsters
 {
-    class Level
+    public class Level
     {
         List<Block> blocks;
+        static int ScrollX;
+        static int levelLength;
+        
 
         public Level(Texture2D block_cloud, Texture2D block_grass, Texture2D green_block, string[] s)
         {
@@ -19,6 +22,8 @@ namespace Monsters
             
             int x = 0;
             int y = 0;
+
+            levelLength = 186 * s[0].Length;
             foreach (string str in s)
             {
                 foreach (char c in str)
@@ -47,6 +52,19 @@ namespace Monsters
             }
         }
 
+        public static Rectangle GetScreenRect(Rectangle rect)
+        {
+            Rectangle screenRect = rect;
+            screenRect.Offset(-ScrollX, 0);
+
+            return screenRect;
+        }
+
+        public static void Scroll(int dx)
+        {
+            if (ScrollX + dx >= 0 && ScrollX + dx <= levelLength - 1366)
+                ScrollX += dx;
+        }
 
         public List<Block> Blocks
         {

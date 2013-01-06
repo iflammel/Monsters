@@ -8,9 +8,9 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Monsters
 {
-    class Nemo
+    public class Nemo
     {
-        Rectangle rect;
+        public Rectangle rect;
         Texture2D run;
         Texture2D idle;
         Texture2D jumpInPlace;
@@ -105,6 +105,7 @@ namespace Monsters
 
         public void KeyControl(KeyboardState keyboardState)
         {
+
             if (keyboardState.IsKeyDown(Keys.Up))
             {
                 Jump();
@@ -136,6 +137,8 @@ namespace Monsters
             }
 
 
+
+
             oldKeyboardState = keyboardState;
         }
 
@@ -149,6 +152,7 @@ namespace Monsters
 
         public void Update(GameTime gameTime)
         {
+           
             timeElapsed += gameTime.ElapsedGameTime.Milliseconds;
             int tempTime = timeForFrame;
             if (timeElapsed > timeForFrame)
@@ -168,8 +172,9 @@ namespace Monsters
                 nextPosition.Offset(dx, 0);
                
                 Rectangle boudingRect = GetBoundingRect(nextPosition);
+                Rectangle screenRect = Level.GetScreenRect(boudingRect);
 
-                if (boudingRect.Left > 0 && boudingRect.Right < game.WindowWidth) //border control
+                if (screenRect.Left > 0 && screenRect.Right < game.WindowWidth) //border control
                 {
                     rect = nextPosition;
                 }
@@ -181,25 +186,26 @@ namespace Monsters
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Begin();
             Rectangle r = new Rectangle(currentFrame * frameWidth, 0, frameWidth, frameHeight);
             SpriteEffects effects = SpriteEffects.None;
             if (!isRunningRight)
             {
                 effects = SpriteEffects.FlipHorizontally;  //flip image to change the way
             }
+            Rectangle screenRect = Level.GetScreenRect(rect);
+            spriteBatch.Begin();
+           
             if (isJumping)
             {
-                spriteBatch.Draw(jumpInPlace, rect, r, Color.White, 0, Vector2.Zero, effects, 0);
+                spriteBatch.Draw(jumpInPlace, screenRect, r, Color.White, 0, Vector2.Zero, effects, 0);
             }
             else
             {
                 if (fightWithShord)
                 {
                     frameHeight = shord.Height;
-                    Rectangle rs = new Rectangle(currentFrame * frameWidth, 0, frameWidth, frameHeight);                   
-                    spriteBatch.Draw(shord, rect, rs, Color.White, 0, Vector2.Zero, effects, 0);
-                    
+                    Rectangle rs = new Rectangle(currentFrame * frameWidth, 0, frameWidth, frameHeight);
+                    spriteBatch.Draw(jumpInPlace, screenRect, rs, Color.White, 0, Vector2.Zero, effects, 0);
                     fightWithShord = false;
                 }
                 else
@@ -208,12 +214,12 @@ namespace Monsters
                     {
                         if (isRunning)
                         {
-                            frameHeight = run.Height;                         
-                            spriteBatch.Draw(run, rect, r, Color.White, 0, Vector2.Zero, effects, 0);
+                            frameHeight = run.Height;
+                            spriteBatch.Draw(run, screenRect, r, Color.White, 0, Vector2.Zero, effects, 0);
                         }
                         else
                         {
-                            spriteBatch.Draw(idle, rect, Color.White);
+                            spriteBatch.Draw(idle, screenRect, Color.White);
                         }
                     }
                 }
